@@ -1,0 +1,23 @@
+<html>
+  <body>
+    <div id="container" style="display: flex; align-items: center;"></div>
+  </body>
+</html>
+
+<script>
+  async function metodo2Do (){
+  const codigo = "https://jsonplaceholder.typicode.com/todos/4"; 
+  const resultado = await fetch (codigo);
+  const resultadoJson = await resultado.json();
+  console.log(resultadoJson);
+  const title = document.createElement("h2");
+  title.innerText = resultadoJson.title;
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.checked = resultadoJson.completed;
+  const contenedorFinal = document.getElementById("container");
+  contenedorFinal.append(title, input);
+  }
+
+  metodo2Do();
+  </script>
