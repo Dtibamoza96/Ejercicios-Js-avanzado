@@ -1,0 +1,61 @@
+<html>
+  <body>
+    <div id="container">
+      <form id="todo-form">
+        <div>
+          <label>Title</label>
+          <input type="text" id="todo-title" />
+        </div>
+        <div>
+          <label>Completed</label>
+          <input type="checkbox" id="todo-completed" />
+        </div>
+
+        <button type="submit" id="submit-todo"></button>
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+document.getElementById('todo-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const title = document.getElementById('todo-title').value;
+        const completed = document.getElementById('todo-completed').checked;
+
+        try {
+          const newPost = await createPost(title, completed);
+          console.log('Nueva publicación creada:', newPost);
+        } catch (error) {
+          console.error('Error en la aplicación:', error.message);
+        }
+      });
+
+      async function createPost(title, completed) {
+        const url = 'https://jsonplaceholder.typicode.com/todos';
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              title: title,
+              completed: completed,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error en la aplicación:', error.message);
+          throw error;
+        }
+      }
+</script>
